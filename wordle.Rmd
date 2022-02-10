@@ -1,0 +1,45 @@
+---
+title: "wordle"
+author: "Sunishka Thakur and Karim Primov"
+date: "2/8/2022"
+output: html_document
+---
+Loading the libraries
+```{r}
+library(tidyverse)
+library(sjmisc)
+library(ggplot2)
+library(skimr)
+library(kableExtra)
+```
+
+Step 1: Creating the function load_dictionary()
+```{r}
+load_dictionary = function(filename){
+  a = read.delim(filename)
+  return(a$words)
+}
+
+valid_list = load_dictionary("collins-scrabble-words-2019.txt")
+solution_list= load_dictionary("google-10000-english-usa-no-swears.txt")
+```
+
+Step 2: Updating solution_list
+
+```{r}
+solution_list_updated = intersect(solution_list, valid_list)
+```
+
+Step 3: Creating function
+
+```{r}
+pick_solution =  function(list){
+  list1 = list[nchar(list) == 5]
+  list2 = sample(list1, 1)
+  str_extract_all(list2, boundary("character"))[[1]]
+}
+solution = pick_solution(solution_list_updated)
+```
+
+
+
