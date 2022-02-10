@@ -35,15 +35,13 @@ str(valid_list)
 str(solution_list)
 ```
 
-
 Step 2:
 
 Winnowing "solution_list" to only include words included in "valid_list"
 ```{r}
 solution_list_updated <- intersect(solution_list, valid_list)
-
+solution_list_updated
 ```
-
 
 Step 3:
 
@@ -52,31 +50,38 @@ Writing custom function pick_solution() that:
 2) randomly chooses a single word from those that remain 
 3) then splits that word into a vector of single-character elements
 ```{r}
-pick_solution <- function(solution_list_updated){
- list1 <- list[nchar(solution_list_updated) == 5]
-  
+pick_solution <- function(list){
+  lista = list(nchar(list) == 5)
+  listb = sample(lista, 1)
+  str_extract_all(listb, boundary("character"))[[1]]
 }
+solution <- pick_solution(solution_list_updated)
 ```
 
-```{r}
-#changing stuff
-```
 
-```{r}
 
-```
 
-```{r}
 
-```
 
-```{r}
 
-```
 
-```{r}
 
-```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
