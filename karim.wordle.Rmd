@@ -22,7 +22,8 @@ Step1:
 Creating function load_dictionary that takes single argument, "filename", which can be used to read in either of the two text files
 ```{r}
 load_dictionary <- function(filename) {
-read.delim(filename) 
+a = read.delim(filename) 
+ a$words
 }
 ```
 
@@ -51,7 +52,7 @@ Writing custom function pick_solution() that:
 3) then splits that word into a vector of single-character elements
 ```{r}
 pick_solution <- function(list){
-  lista = list(nchar(list) == 5)
+  lista = list[nchar(list) == 5]
   listb = sample(lista, 1)
   str_extract_all(listb, boundary("character"))[[1]]
 }
