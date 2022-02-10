@@ -41,5 +41,3 @@ pick_solution =  function(list){
 solution = pick_solution(solution_list_updated)
 ```
 
-
-
