@@ -69,27 +69,23 @@ Comparing guess word to the solution word and generate necessary feedback
 helper_function <- function(guess, solution){
   #can just use "guess" and "solution" in helper function without need to split them into vectors 
   #setting up for loop going through each letter in "guess"
-output.variable = c()                                 #setting i to 1
-  for (i in 1:length(guess)){ 
-    for (j in 1:length(solution)){   
-      if (guess[i] == solution[j]){      #if the ith letter in guess equal to the jth letter in solution
-        if (i == j){                     #e.g. seeing if the letters are at the same position within both the guess and solution vector
-          output.variable[i] = "*"
-        }
-          else {
-            output.variable[i] = "+"
-          }
-      }
-      else{                              
-        output.variable[i] = "-"
-        }
-      
+output.variable = c("-","-","-","-","-")                 #setting i to 1
+
+for (i in 1:length(guess)){ 
+for (j in 1:length(solution)){
+  if (guess[i] == solution[j]){
+      if (i == j){
+        output.variable[i] = "*"
+         }
+         else{
+           output.variable[i] = "+"
+     }
+    } 
+   }
   }
-  }
-      return(output.variable)
+  return(output.variable)
 }
-  
-  
+
 ```
 
 
@@ -109,11 +105,11 @@ play_wordle <- function(solution, valid_list, num_guesses=6){
       print("This is a valid guess")
       result <- helper_function(guess.str_extract, solution) #use helper function to evaluate guess vs. solution
       print(result) 
-      if (result == "*****"){                                        #if helper function's output == solution
+      if (result == c("*", "*", "*", "*", "*")){                                        #if helper function's output == solution
            print("You win!")
            return()
         }
-      if (guess_count == 6) {
+      if (guess_count > 6) {
         print("You lose")
         return()
         }#then player wins the game
