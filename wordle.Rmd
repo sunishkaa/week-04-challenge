@@ -11,6 +11,8 @@ library(sjmisc)
 library(ggplot2)
 library(skimr)
 library(kableExtra)
+library(stringr)
+library(useful)
 ```
 
 Step 1: Creating the function load_dictionary()
@@ -41,13 +43,83 @@ pick_solution =  function(list){
 solution = pick_solution(solution_list_updated)
 ```
 
+Step 4: I have finished up to part 3. part 4 is challenging. 
 
+```{r}
 
+#first, the helper function
 
+evaluate_guess = function(guess, solution){
+  result = c("-", "-", "-", "-", "-")
+  for (i in 1:length(result)){
+    if (guess[i] %in% solution){
+      result[i] = "+"
+      if((guess[i] == solution[i])){
+        result[i] = "*"
+      }
+    }
+    else{
+      result[i] = "-"
+    }
+  }
+  return(result)
+}
 
+```
 
+```{r}
 
+#the play_wordle function
 
+solution = pick_solution(solution_list_updated)
+solution
+play_wordle = function(solution, valid_list, num_guesses = 6){
+  print("Hello! Welcome to our Wordle. You have 6 total chances to guess a five letter word.")
+  letters_left = LETTERS
+  print(paste0("Letters left: ", toString(letters_left)))
+  guess_count = 1
+  feedback = c()
+  guess_history = c()
+  while(guess_count <= num_guesses) {
+  guess = toupper(readline("Enter your guess:"))
+  while (guess %in% valid_list == FALSE | nchar(guess) != 5){
+    print("Your entry is invalid! Enter a valid word.")
+    guess = toupper(readline("Enter another guess:"))
+  }
+  print("Ok!")
+  guess_history = append(guess_history, guess)
+  guess = str_extract_all(guess, boundary())[[1]]
+  r = evaluate_guess(guess=guess, solution=solution)
+  print(r)
+  feedback= append(feedback, toString(r))
+  correct = c("*", "*", "*", "*", "*")
+  if(identical(r, correct)){
+    print(paste0("You win! You guessed correctly in ", guess_count, " guesses!"))
+    print(paste0("Your guesses were:", toString(guess_history)))
+    print("Here's how you did:")
+    feedback_table = write.table(matrix(feedback), 
+                                 col.names = FALSE,
+                                 row.names = FALSE)
+    
+    break
+  }
+  else{
+    print("That's not right!")
+    letters_left = setdiff(letters_left, guess)
+  }
+  guess_count = guess_count + 1
+  print(paste0("You are now on guess  ", guess_count, "  out of 6."))
+  print(paste0("Letters left: ", toString(letters_not_guessed)))
+  }
+  if(guess_count > 6){
+    print("Game over! You lose.")
+    print(paste0("Your guesses were:", toString(guess_history)))
+    print("Here's how you did:")
+    feedback_table = write.table(matrix(feedback), 
+                                 col.names = FALSE,
+                                 row.names = FALSE)
+  }
+}
+play_wordle(solution, valid_list = solution_list_updated)
 
-
-
+```
