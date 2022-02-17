@@ -1,0 +1,110 @@
+---
+title: "wordle"
+author: "Karim Primov"
+date: "2/8/2022"
+output: html_document
+---
+
+
+loading libraries
+```{r}
+library(dplyr)
+library(tidyverse)
+library(sjmisc)
+library(ggplot2)
+library(skimr)
+library(kableExtra)
+```
+
+
+Step1:
+
+Creating function load_dictionary that takes single argument, "filename", which can be used to read in either of the two text files
+```{r}
+load_dictionary <- function(filename) {
+read.delim(filename) 
+}
+```
+
+
+Creating variables "solution_list" and "valid_list" that respectively contain vectors of possible solution words and valid words
+```{r}
+valid_list <- load_dictionary("collins-scrabble-words-2019.txt")
+solution_list <- load_dictionary("google-10000-english-usa-no-swears.txt")
+str(valid_list)
+str(solution_list)
+```
+
+Step 2:
+
+Winnowing "solution_list" to only include words included in "valid_list"
+```{r}
+solution_list_updated <- intersect(solution_list, valid_list)
+solution_list_updated
+```
+
+Step 3:
+
+Writing custom function pick_solution() that:
+1) removes all words from solution_list that are not 5 letters in length 
+2) randomly chooses a single word from those that remain 
+3) then splits that word into a vector of single-character elements
+```{r}
+pick_solution <- function(list){
+  lista = list(nchar(list) == 5)
+  listb = sample(lista, 1)
+  str_extract_all(listb, boundary("character"))[[1]]
+}
+solution <- pick_solution(solution_list_updated)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
